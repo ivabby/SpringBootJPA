@@ -13,13 +13,27 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public boolean checkUserPresent(int userId) {
+        return getUser(userId) != null;
+    }
+
     public List<User> getAllUsers() {
         List<User> userRecords = new ArrayList<>();
         userRepository.findAll().forEach(userRecords::add);
         return userRecords;
     }
 
-    public void addUser(User user) {
-        userRepository.save(user);
+    public boolean addUser(User user) {
+        if(checkUserPresent(user.getId())) {
+            userRepository.save(user);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public User getUser(int id) {
+        return (User) userRepository.findById(Integer.valueOf(id)).orElse(null);
     }
 }
