@@ -24,13 +24,17 @@ public class UserService {
     }
 
     public boolean addUser(User user) {
-        if(checkUserPresent(user.getId())) {
+        if(!checkUserPresent(user.getId())) {
             userRepository.save(user);
             return true;
         }
         else {
             return false;
         }
+    }
+
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 
     public User getUser(int id) {

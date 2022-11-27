@@ -1,0 +1,39 @@
+version: "2.1"
+services:
+  springbootapp:
+#     Container name
+#     container_name: spring-app
+#     Image name
+    image: springbootapp
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+#    restart: on-failure
+    build: .
+    ports:
+      - 9090:8080
+    environment:
+      MYSQL_HOST: mysqldb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_PORT: 3306
+      WAIT_HOSTS: mysqldb:3036
+
+
+
+  mysqldb:
+    container_name: mysqldb
+    image: mysql
+    ports:
+      - 3307:3306
+
+    volumes:
+      - /Users/vaibhav/Desktop/Coding/Spring/springboot/db
+    environment:
+      MYSQL_DATABASE: spring_boot_demo
+      MYSQL_ROOT_PASSWORD: password
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=password --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 30s
+      retries: 15

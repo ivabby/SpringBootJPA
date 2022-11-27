@@ -49,7 +49,7 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity updateUserById(@RequestBody User user) {
         if(userService.checkUserPresent(user.getId())) {
-            userService.addUser(user);
+            userService.updateUser(user);
             return ResponseEntity.ok("User Updated!!");
         }
         return ResponseEntity.ok("No user found with the given id");
