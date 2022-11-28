@@ -46,12 +46,23 @@ public class UserController {
     }
 
     //  Update user By Id
-    @PutMapping("/{userId}")
+    @PutMapping("/")
     public ResponseEntity updateUserById(@RequestBody User user) {
         if(userService.checkUserPresent(user.getId())) {
             userService.updateUser(user);
             return ResponseEntity.ok("User Updated!!");
         }
         return ResponseEntity.ok("No user found with the given id");
+    }
+
+    //  Delete user by id
+    @DeleteMapping("/{userId}")
+    public ResponseEntity deleteUserById(@PathVariable("userId") Integer userId) {
+        if(userService.checkUserPresent(userId)) {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("User Deleted!!!");
+        }
+
+        return ResponseEntity.status(404).body("No User found with id: "+userId);
     }
 }

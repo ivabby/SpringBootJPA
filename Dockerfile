@@ -1,17 +1,14 @@
 #base image name
-FROM openjdk:11
-#Target folder to find the jar file
-ADD target/*.jar app.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+#FROM openjdk:11
+##Target folder to find the jar file
+#ADD target/*.jar app.jar
+#ENTRYPOINT ["java","-jar","app.jar"]
 
 
-# Add hello scripts
-ADD sayhello /sayhello
-RUN chmod +x /sayhello
-
-# Add docker-compose-wait tool -------------------
-ENV WAIT_VERSION 2.7.2
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
-RUN chmod +x /wait
-
-CMD ["/sayhello"]
+FROM openjdk:8-jdk-alpine as build
+RUN apk add --no-cache maven
+WORKDIR /java
+COPY . /java
+RUN mvn package -Dmaven.test.skip=true
+EXPOSE 8080
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/java/target/springboot-0.0.1-SNAPSHOT.jar"]

@@ -4,12 +4,13 @@ services:
 #     Container name
 #     container_name: spring-app
 #     Image name
-    image: springbootapp
+    image: vaibhav/springbootapp
+    build:
+      dockerfile: Dockerfile
     depends_on:
       mysqldb:
         condition: service_healthy
 #    restart: on-failure
-    build: .
     ports:
       - 9090:8080
     environment:
