@@ -4,7 +4,7 @@ services:
 #     Container name
 #     container_name: spring-app
 #     Image name
-    image: vaibhav/springbootapp
+    image: springbootapp
     build:
       dockerfile: Dockerfile
     depends_on:
