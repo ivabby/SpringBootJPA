@@ -58,11 +58,21 @@ public class UserController {
     //  Delete user by id
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUserById(@PathVariable("userId") Integer userId) {
-        if(userService.checkUserPresent(userId)) {
+        if (userService.checkUserPresent(userId)) {
             userService.deleteUser(userId);
             return ResponseEntity.ok("User Deleted!!!");
         }
 
-        return ResponseEntity.status(404).body("No User found with id: "+userId);
+        return ResponseEntity.status(404).body("No User found with id: " + userId);
+    }
+
+    // Get all user with name
+    @GetMapping("/users/{userName}")
+    public ResponseEntity findUserByName(@PathVariable String userName) {
+        List<User> userList = userService.getUserByName(userName);
+        if(userList != null && userList.size() > 0) {
+            return ResponseEntity.ok(userList);
+        }
+        return ResponseEntity.status(404).body("No User found with name: "+userName);
     }
 }
