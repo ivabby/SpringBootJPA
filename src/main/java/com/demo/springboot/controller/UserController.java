@@ -40,7 +40,8 @@ public class UserController {
     public ResponseEntity<Object> getUserById(@PathVariable int userId) {
         User user = userService.getUser(userId);
         if(user == null) {
-            return ResponseEntity.status(404).body("No user found with id:"+userId);
+//            return ResponseEntity.status(404).body("No user found with id:"+userId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found with id:" +userId);
         }
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
